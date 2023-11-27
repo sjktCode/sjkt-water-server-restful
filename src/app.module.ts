@@ -1,11 +1,21 @@
 import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
+
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { content, database, meilli } from './config';
 import { AuthModule } from './modules/auth/auth.module';
 import { CardModule } from './modules/card/card.module';
 import { CardRecordModule } from './modules/cardrecord/card-record.module';
+import { ContentModule } from './modules/content/content.module';
+import { CoreModule } from './modules/core/core.module';
+import { AppFilter, AppIntercepter, AppPipe } from './modules/core/providers';
 import { CourseModule } from './modules/course/course.module';
+import { DatabaseModule } from './modules/database/database.module';
+import { MeilliModule } from './modules/meilisearch/melli.module';
 import { OrderModule } from './modules/order/order.module';
 import { OrganizationModule } from './modules/organization/organization.module';
 import { OSSModule } from './modules/oss/oss.module';
@@ -17,15 +27,6 @@ import { TeacherModule } from './modules/teacher/teacher.module';
 import { UserModule } from './modules/user/user.module';
 import { WxorderModule } from './modules/wxorder/wxorder.module';
 import { WxpayModule } from './modules/wxpay/wxpay.module';
-import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { AppFilter, AppIntercepter, AppPipe } from './modules/core/providers';
-import { ContentModule } from './modules/content/content.module';
-import { CoreModule } from './modules/core/core.module';
-import { DatabaseModule } from './modules/database/database.module';
-import { MeilliModule } from './modules/meilisearch/melli.module';
-import { content, database, meilli } from './config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 @Module({
     imports: [
@@ -74,7 +75,7 @@ import { AppService } from './app.service';
             provide: APP_FILTER,
             useClass: AppFilter,
         },
-        AppService
+        AppService,
     ],
 })
 export class AppModule {}

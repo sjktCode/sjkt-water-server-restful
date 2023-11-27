@@ -141,7 +141,11 @@ export class WxpayController {
     // /wx/wxCode
     // 得到 code 然后用 code 直接去获取 openid
     @Get('wxCode')
-    async wxCode(@Res() res: FastifyReply, @Query('code') code: string, @Query('state') state: string) {
+    async wxCode(
+        @Res() res: FastifyReply,
+        @Query('code') code: string,
+        @Query('state') state: string,
+    ) {
         const [userId, url] = state.split('@');
         const response = await axios.get(
             `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${process.env.WXPAY_APPID}&secret=${process.env.WXPAY_APPSECRET}&code=${code}&grant_type=authorization_code`,
