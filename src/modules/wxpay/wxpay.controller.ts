@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import axios from 'axios';
 
-import { Response } from 'express';
+import { FastifyReply } from 'fastify';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -125,7 +125,7 @@ export class WxpayController {
     async wxLogin(
         @Query('userId') userId: string,
         @Query('url') url: string,
-        @Res() res: Response,
+        @Res() res: FastifyReply,
     ): Promise<void> {
         res.redirect(`
       https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
@@ -141,7 +141,7 @@ export class WxpayController {
     // /wx/wxCode
     // 得到 code 然后用 code 直接去获取 openid
     @Get('wxCode')
-    async wxCode(@Res() res: Response, @Query('code') code: string, @Query('state') state: string) {
+    async wxCode(@Res() res: FastifyReply, @Query('code') code: string, @Query('state') state: string) {
         const [userId, url] = state.split('@');
         const response = await axios.get(
             `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${process.env.WXPAY_APPID}&secret=${process.env.WXPAY_APPSECRET}&code=${code}&grant_type=authorization_code`,

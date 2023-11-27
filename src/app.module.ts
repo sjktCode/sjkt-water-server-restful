@@ -2,10 +2,6 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 
 import { GraphQLModule } from '@nestjs/graphql';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { CardModule } from './modules/card/card.module';
 import { CardRecordModule } from './modules/cardrecord/card-record.module';
@@ -21,22 +17,23 @@ import { TeacherModule } from './modules/teacher/teacher.module';
 import { UserModule } from './modules/user/user.module';
 import { WxorderModule } from './modules/wxorder/wxorder.module';
 import { WxpayModule } from './modules/wxpay/wxpay.module';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { AppFilter, AppIntercepter, AppPipe } from './modules/core/providers';
+import { ContentModule } from './modules/content/content.module';
+import { CoreModule } from './modules/core/core.module';
+import { DatabaseModule } from './modules/database/database.module';
+import { MeilliModule } from './modules/meilisearch/melli.module';
+import { content, database, meilli } from './config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot({
-            type: 'mysql',
-            host: process.env.MYSQL_HOST,
-            // eslint-disable-next-line radix
-            port: parseInt(process.env.MYSQL_PORT),
-            username: process.env.MYSQL_USERNAME,
-            password: process.env.MYSQL_PASSWORD,
-            database: process.env.MYSQL_DATABASE,
-            entities: [`${__dirname}/../module/**/*.entity{.ts,.js}`],
-            logging: true,
-            synchronize: true,
-            autoLoadEntities: true,
-        }),
+        ContentModule.forRoot(content),
+        CoreModule.forRoot(),
+        DatabaseModule.forRoot(database),
+        MeilliModule.forRoot(meilli),
+        CoreModule,
         GraphQLModule.forRoot({
             driver: ApolloDriver,
             autoSchemaFile: './schema.gql',
@@ -58,6 +55,26 @@ import { WxpayModule } from './modules/wxpay/wxpay.module';
         ScheduleRecordModule,
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [
+        {
+            provide: APP_PIPE,
+            useValue: new AppPipe({
+                transform: true,
+                whitelist: true,
+                forbidNonWhitelisted: true,
+                forbidUnknownValues: true,
+                validationError: { target: false },
+            }),
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: AppIntercepter,
+        },
+        {
+            provide: APP_FILTER,
+            useClass: AppFilter,
+        },
+        AppService
+    ],
 })
 export class AppModule {}
