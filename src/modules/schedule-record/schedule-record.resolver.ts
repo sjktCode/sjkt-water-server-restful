@@ -9,7 +9,7 @@ import { CurUserId } from '@/common/decorators/current-user.decorator';
 import { PageInput } from '@/common/dto/page.input';
 import { Result } from '@/common/dto/result.type';
 
-import { GqlAuthGuard } from '@/common/guards/auth.guards';
+import { JwtAuthGuard } from '@/common/guards/auth.guards';
 
 import {
     CANCEL_SCHEDULE_FAIL,
@@ -24,7 +24,7 @@ import { ScheduleRecordType } from './dto/schedule-record.type';
 import { ScheduleRecordService } from './schedule-record.service';
 
 @Resolver(() => ScheduleRecordType)
-@UseGuards(GqlAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class ScheduleRecordResolver {
     constructor(
         private readonly scheduleRecordService: ScheduleRecordService,

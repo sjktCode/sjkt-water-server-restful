@@ -11,7 +11,8 @@ import { CardType } from '@/common/constants/enum';
 import { CurOrgId } from '@/common/decorators/current-org.decorator';
 import { CurUserId } from '@/common/decorators/current-user.decorator';
 import { Result } from '@/common/dto/result.type';
-import { GqlAuthGuard } from '@/common/guards/auth.guards';
+
+import { JwtAuthGuard } from '@/common/guards/auth.guards';
 
 import {
     CARD_DEPLETE,
@@ -41,7 +42,7 @@ import { ScheduleService } from './schedule.service';
  * 课程表
  */
 @Resolver(() => ScheduleType)
-@UseGuards(GqlAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class ScheduleResolver {
     constructor(
         private readonly scheduleService: ScheduleService,

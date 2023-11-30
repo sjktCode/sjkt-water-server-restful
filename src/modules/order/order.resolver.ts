@@ -7,7 +7,7 @@ import { SUCCESS } from '@/common/constants/code';
 import { CurUserId } from '@/common/decorators/current-user.decorator';
 import { PageInput } from '@/common/dto/page.input';
 import { Result } from '@/common/dto/result.type';
-import { GqlAuthGuard } from '@/common/guards/auth.guards';
+import { JwtAuthGuard } from '@/common/guards/auth.guards';
 
 import { COURSE_DEL_FAIL, COURSE_NOT_EXIST } from '../../common/constants/code';
 
@@ -17,7 +17,7 @@ import { Order } from './models/order.entity';
 import { OrderService } from './order.service';
 
 @Resolver(() => OrderType)
-@UseGuards(GqlAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class OrderResolver {
     constructor(private readonly orderService: OrderService) {}
 

@@ -9,7 +9,7 @@ import { CurUserId } from '@/common/decorators/current-user.decorator';
 import { PageInput } from '@/common/dto/page.input';
 import { Result } from '@/common/dto/result.type';
 
-import { GqlAuthGuard } from '@/common/guards/auth.guards';
+import { JwtAuthGuard } from '@/common/guards/auth.guards';
 
 import { CARD_NOT_EXIST, COURSE_DEL_FAIL, COURSE_NOT_EXIST } from '../../common/constants/code';
 
@@ -20,7 +20,7 @@ import { CardRecordResult, CardRecordResults } from './dto/result-card-record.ou
 import { CardRecord } from './models/card-record.entity';
 
 @Resolver(() => CardRecordType)
-@UseGuards(GqlAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class CardRecordResolver {
     constructor(private readonly cardRecordService: CardRecordService) {}
 

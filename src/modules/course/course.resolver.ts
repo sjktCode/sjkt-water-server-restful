@@ -8,7 +8,8 @@ import { CurOrgId } from '@/common/decorators/current-org.decorator';
 import { CurUserId } from '@/common/decorators/current-user.decorator';
 import { PageInput } from '@/common/dto/page.input';
 import { Result } from '@/common/dto/result.type';
-import { GqlAuthGuard } from '@/common/guards/auth.guards';
+
+import { JwtAuthGuard } from '@/common/guards/auth.guards';
 
 import {
     COURSE_CREATE_FAIL,
@@ -24,7 +25,7 @@ import { CourseResult, CourseResults } from './dto/result-course.output';
 import { Course } from './models/course.entity';
 
 @Resolver(() => CourseType)
-@UseGuards(GqlAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class CourseResolver {
     constructor(private readonly courseService: CourseService) {}
 

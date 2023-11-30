@@ -1,4 +1,3 @@
-import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 
 import { SUCCESS, STUDENT_NOT_EXIST } from '@/common/constants/code';
@@ -6,15 +5,13 @@ import { CurUserId } from '@/common/decorators/current-user.decorator';
 import { PageInput } from '@/common/dto/page.input';
 import { Result } from '@/common/dto/result.type';
 
-import { GqlAuthGuard } from '@/common/guards/auth.guards';
-
 import { StudentResult, StudentResults } from './dto/result-student.output';
 import { StudentInput } from './dto/student.input';
 import { StudentType } from './dto/student.type';
 import { StudentService } from './student.service';
 
 @Resolver(() => StudentType)
-@UseGuards(GqlAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class StudentResolver {
     constructor(private readonly studentService: StudentService) {}
 

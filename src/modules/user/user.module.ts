@@ -1,13 +1,19 @@
-import { ConsoleLogger, Module } from '@nestjs/common';
+import { ConsoleLogger, DynamicModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { User } from './models/user.entity';
-import { UserResolver } from './user.resolver';
+import { UserEntity } from './models/user.entity';
+import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
-@Module({
-    imports: [TypeOrmModule.forFeature([User])],
-    providers: [ConsoleLogger, UserService, UserResolver],
-    exports: [UserService],
-})
-export class UserModule {}
+@Module({})
+export class UserModule {
+    static forRoot(): DynamicModule {
+        return {
+            module: UserModule,
+            imports: [TypeOrmModule.forFeature([UserEntity])],
+            controllers: [UserController],
+            providers: [ConsoleLogger, UserService],
+            exports: [UserService],
+        };
+    }
+}

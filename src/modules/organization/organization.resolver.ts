@@ -7,7 +7,7 @@ import { ORG_FAIL, ORG_NOT_EXIST, SUCCESS } from '@/common/constants/code';
 import { CurUserId } from '@/common/decorators/current-user.decorator';
 import { PageInput } from '@/common/dto/page.input';
 import { Result } from '@/common/dto/result.type';
-import { GqlAuthGuard } from '@/common/guards/auth.guards';
+import { JwtAuthGuard } from '@/common/guards/auth.guards';
 
 import { COURSE_DEL_FAIL, COURSE_NOT_EXIST } from '../../common/constants/code';
 
@@ -20,7 +20,7 @@ import { Organization } from './models/organization.entity';
 import { OrganizationService } from './organization.service';
 
 @Resolver(() => OrganizationType)
-@UseGuards(GqlAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class OrganizationResolver {
     constructor(
         private readonly organizationService: OrganizationService,

@@ -13,7 +13,7 @@ import { ScheduleService } from './schedule.service';
 @Module({
     imports: [
         TypeOrmModule.forFeature([Schedule]),
-        CourseModule,
+        CourseModule.forRoot(),
         CardRecordModule,
         ScheduleRecordModule,
     ],

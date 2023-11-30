@@ -1,8 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { GqlExecutionContext } from '@nestjs/graphql';
 
-export const CurOrgId = createParamDecorator((_data: unknown, context: ExecutionContext) => {
-    const ctx = GqlExecutionContext.create(context);
-    const orgId = ctx.getContext().req.headers.orgid;
+export const CurOrgId = createParamDecorator(async (_data: unknown, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    const orgId = request.headers.orgid;
     return orgId;
 });

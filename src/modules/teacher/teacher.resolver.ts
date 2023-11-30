@@ -7,7 +7,7 @@ import { SUCCESS } from '@/common/constants/code';
 import { CurUserId } from '@/common/decorators/current-user.decorator';
 import { PageInput } from '@/common/dto/page.input';
 import { Result } from '@/common/dto/result.type';
-import { GqlAuthGuard } from '@/common/guards/auth.guards';
+import { JwtAuthGuard } from '@/common/guards/auth.guards';
 
 import {
     COURSE_CREATE_FAIL,
@@ -25,7 +25,7 @@ import { Teacher } from './models/teacher.entity';
 import { TeacherService } from './teacher.service';
 
 @Resolver(() => TeacherType)
-@UseGuards(GqlAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class TeacherResolver {
     constructor(private readonly teacherService: TeacherService) {}
 

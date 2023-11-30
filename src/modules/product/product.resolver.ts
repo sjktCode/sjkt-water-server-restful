@@ -10,7 +10,7 @@ import { CurOrgId } from '@/common/decorators/current-org.decorator';
 import { CurUserId } from '@/common/decorators/current-user.decorator';
 import { PageInput } from '@/common/dto/page.input';
 import { Result } from '@/common/dto/result.type';
-import { GqlAuthGuard } from '@/common/guards/auth.guards';
+import { JwtAuthGuard } from '@/common/guards/auth.guards';
 
 import {
     PRODUCT_CREATE_FAIL,
@@ -26,7 +26,7 @@ import { Product } from './models/product.entity';
 import { ProductService } from './product.service';
 
 @Resolver(() => ProductType)
-@UseGuards(GqlAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class ProductResolver {
     constructor(private readonly productService: ProductService) {}
 

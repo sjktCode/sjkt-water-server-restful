@@ -1,8 +1,14 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { GqlExecutionContext } from '@nestjs/graphql';
 
-export const CurUserId = createParamDecorator((_data: unknown, context: ExecutionContext) => {
-    const ctx = GqlExecutionContext.create(context);
-    const userId = ctx.getContext().req.user.id;
-    return userId;
+import { UserEntity } from '@/modules/user/models/user.entity';
+
+/**
+ * 当前用户装饰器
+ * 通过request查询通过jwt解析出来的当前登录的ID查询当前用户模型实例
+ * 并用于控制器直接注入
+ */
+export const CurUserId = createParamDecorator(async (_data: unknown, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    const user = request.user as ClassToPlain<UserEntity>;
+    return user.id;
 });

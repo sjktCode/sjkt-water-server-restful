@@ -14,7 +14,7 @@ import {
 import { OrderStatus } from '@/common/constants/enum';
 import { CurUserId } from '@/common/decorators/current-user.decorator';
 import { Result } from '@/common/dto/result.type';
-import { GqlAuthGuard } from '@/common/guards/auth.guards';
+import { JwtAuthGuard } from '@/common/guards/auth.guards';
 
 import { CardRecordService } from '../cardrecord/card-record.service';
 import { OrderService } from '../order/order.service';
@@ -26,7 +26,7 @@ import { WxConfigResult } from './dto/result-wxpay.output';
 import { WxConfig } from './dto/wx-config.type';
 
 @Resolver()
-@UseGuards(GqlAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class WxpayResolver {
     constructor(
         private readonly cardRecordService: CardRecordService,

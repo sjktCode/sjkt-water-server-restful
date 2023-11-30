@@ -7,7 +7,7 @@ import { SUCCESS } from '@/common/constants/code';
 import { CurOrgId } from '@/common/decorators/current-org.decorator';
 import { CurUserId } from '@/common/decorators/current-user.decorator';
 import { Result } from '@/common/dto/result.type';
-import { GqlAuthGuard } from '@/common/guards/auth.guards';
+import { JwtAuthGuard } from '@/common/guards/auth.guards';
 
 import {
     CARD_CREATE_FAIL,
@@ -23,7 +23,7 @@ import { CardResult, CardResults } from './dto/result-card.output';
 import { Card } from './models/card.entity';
 
 @Resolver(() => CardType)
-@UseGuards(GqlAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class CardResolver {
     constructor(private readonly cardService: CardService) {}
 
